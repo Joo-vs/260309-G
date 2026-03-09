@@ -247,6 +247,144 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
 .load-popup-footer { padding: 12px 20px; border-top: 1px solid #eee; display: flex; justify-content: center; background: #fafafa; flex-shrink: 0; }
 .insert-btn { background: #3b6fd4; color: #fff; border: none; border-radius: 6px; padding: 9px 56px; font-size: 14px; font-weight: 700; cursor: pointer; }
 .insert-btn:hover { background: #2f5abf; }
+
+/* ══ 게임형 뷰어 팝업 ══ */
+.game-viewer-popup {
+  background: #1a1a2e; border-radius: 12px; width: 780px;
+  max-height: 90vh; overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: 0 12px 48px rgba(0,0,0,.6);
+}
+.game-viewer-header {
+  background: #16213e; padding: 11px 20px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid #0f3460;
+}
+.gv-nav { display: flex; align-items: center; gap: 8px; }
+.gv-nav-btn {
+  width: 28px; height: 28px; border-radius: 4px; border: 1px solid rgba(255,255,255,.3);
+  background: rgba(255,255,255,.1); color: #fff; cursor: pointer; font-size: 12px;
+}
+.gv-nav-btn:hover { background: rgba(255,255,255,.2); }
+.game-viewer-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.gv-screen { flex: 1; display: flex; flex-direction: column; }
+.gv-game-wrap { flex: 1; display: flex; flex-direction: column; position: relative; min-height: 360px; }
+
+/* ── 선택형 배경: 목장 느낌 ── */
+.gv-select-bg {
+  background: linear-gradient(180deg, #4a9e52 0%, #3a8040 35%, #6b5220 80%, #4a3510 100%);
+  border-top: 10px solid #7a5c1e;
+  border-bottom: 10px solid #7a5c1e;
+}
+/* 목장 울타리 장식 */
+.gv-select-bg::before {
+  content: ''; position: absolute; bottom: 10px; left: 0; right: 0; height: 18px;
+  background: repeating-linear-gradient(90deg, #8B6914 0px, #8B6914 40px, transparent 40px, transparent 60px);
+  opacity: .5;
+}
+
+/* ── OX형 배경: 보라+시계 느낌 ── */
+.gv-ox-bg {
+  background: radial-gradient(ellipse at 50% 40%, #8b2fc9 0%, #5a1890 40%, #2d0850 100%);
+  position: relative; overflow: hidden;
+}
+.gv-ox-bg::before {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  width: 260px; height: 260px; margin: -130px 0 0 -130px;
+  border-radius: 50%;
+  border: 14px solid rgba(180,100,255,.18);
+  box-shadow: 0 0 0 28px rgba(180,100,255,.08);
+  pointer-events: none;
+}
+
+/* ── 발문 바 ── */
+.gv-question-bar {
+  background: rgba(10,40,10,.88);
+  border: 2px solid #4caf50;
+  margin: 14px 18px 10px; border-radius: 6px; padding: 10px 18px;
+  font-size: 14px; font-weight: 700; color: #fff; text-align: center;
+  text-shadow: 0 1px 4px rgba(0,0,0,.5);
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+.gv-ox-bar {
+  background: rgba(20,5,50,.9);
+  border-color: #7e22ce;
+}
+
+/* ── 선택형 콘텐츠 영역 ── */
+.gv-select-area {
+  display: flex; gap: 14px; padding: 4px 18px 18px; flex: 1; align-items: stretch;
+}
+.gv-word-card {
+  flex: 1; background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 700; color: #fff; min-height: 150px;
+  box-shadow: 0 4px 16px rgba(0,0,0,.4);
+  text-shadow: 0 1px 4px rgba(0,0,0,.4);
+  border: 2px solid rgba(255,255,255,.15);
+}
+.gv-choices { display: flex; flex-direction: column; gap: 10px; width: 210px; }
+.gv-choice {
+  flex: 1; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 700; color: #fff; cursor: pointer;
+  position: relative;
+  box-shadow: 0 4px 10px rgba(0,0,0,.3);
+  padding: 0 14px; text-align: center;
+  border: 2px solid rgba(255,255,255,.12);
+  transition: filter .15s;
+}
+.gv-choice:hover { filter: brightness(1.15); }
+.gv-choice-1 { background: linear-gradient(135deg, #3d6b2a, #2d5a1e); }
+.gv-choice-2 { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+.gv-choice-3 { background: linear-gradient(135deg, #1e4a80, #1a3a6a); }
+.gv-correct-choice { border-color: #f1c40f !important; box-shadow: 0 0 0 2px rgba(241,196,15,.4), 0 4px 10px rgba(0,0,0,.3); }
+.gv-badge {
+  position: absolute; top: -9px; right: -6px;
+  background: #27ae60; color: #fff; font-size: 10px; font-weight: 700;
+  border-radius: 10px; padding: 2px 8px;
+  border: 1.5px solid #fff; white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0,0,0,.3);
+}
+
+/* ── OX형 콘텐츠 ── */
+.gv-ox-content {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  padding: 8px 24px 24px; gap: 18px; position: relative; z-index: 1;
+}
+.gv-ox-sentence {
+  background: linear-gradient(135deg, rgba(30,10,80,.92), rgba(20,5,60,.92));
+  border-radius: 10px; padding: 18px 28px;
+  color: #fff; font-size: 15px; text-align: center; width: 100%;
+  border: 1px solid rgba(200,150,255,.35);
+  box-shadow: 0 4px 16px rgba(0,0,0,.4);
+}
+.gv-ox-sentence u { text-decoration: underline; color: #f1c40f; }
+.gv-ox-btns { display: flex; gap: 48px; align-items: center; padding-top: 4px; }
+.gv-ox-btn {
+  width: 110px; height: 110px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px; font-weight: 900; cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0,0,0,.4); position: relative;
+  border: 5px solid transparent; transition: transform .15s;
+}
+.gv-ox-btn:hover { transform: scale(1.07); }
+.gv-o-btn { background: #27ae60; color: #fff; border-color: #1a7a42; }
+.gv-x-btn { background: #e74c3c; color: #fff; border-color: #a93226; }
+.gv-x-btn .gv-badge { top: -8px; right: -4px; }
+
+/* 하단 탭 */
+.game-viewer-footer {
+  background: #16213e; border-top: 1px solid #0f3460; padding: 10px 20px;
+  display: flex; justify-content: center; gap: 10px; align-items: center;
+}
+.gv-type-tabs { display: flex; gap: 8px; }
+.gv-tab {
+  padding: 6px 22px; border-radius: 20px; border: 1px solid rgba(255,255,255,.25);
+  background: transparent; color: rgba(255,255,255,.6); font-size: 12px; cursor: pointer;
+  transition: all .15s;
+}
+.gv-tab.active { background: #3b6fd4; border-color: #3b6fd4; color: #fff; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -360,8 +498,8 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
       <div class="toolbar-top">
         <div class="toolbar-title">설정 &nbsp;<span>[신규] 111</span></div>
         <div style="display:flex;gap:6px">
-          <button class="btn btn-outline">콘텐츠 선택 ↑</button>
           <button class="btn btn-blue">미리보기</button>
+          <button class="btn btn-blue" onclick="openGameViewer()" style="background:#16213e;border-color:#0f3460;">🎮 게임형 뷰어</button>
           <button class="btn btn-blue">저장하기</button>
         </div>
       </div>
@@ -474,6 +612,79 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
 
     <div class="load-popup-footer">
       <button class="insert-btn" onclick="insertQuestions()">변환</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+  팝업 ③ 게임형 뷰어
+══════════════════════════ -->
+<div class="overlay" id="gameViewerOverlay">
+  <div class="game-viewer-popup">
+    <div class="game-viewer-header">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:15px;font-weight:700;color:#fff">🎮 게임형 뷰어</span>
+        <span style="font-size:11px;color:rgba(255,255,255,.55)">실제 게임에서 보이는 화면입니다</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="gv-nav">
+          <button class="gv-nav-btn" onclick="prevQuestion()">◀</button>
+          <span id="gvPageInfo" style="font-size:12px;color:#fff;min-width:60px;text-align:center">1 / 1</span>
+          <button class="gv-nav-btn" onclick="nextQuestion()">▶</button>
+        </div>
+        <button class="popup-close" onclick="closeGameViewer()">✕</button>
+      </div>
+    </div>
+
+    <div class="game-viewer-body" id="gameViewerBody">
+
+      <!-- 선택형 게임 화면 -->
+      <div id="gvSelect" class="gv-screen">
+        <div class="gv-game-wrap gv-select-bg">
+          <div class="gv-question-bar">
+            <span id="gvSelectQ">다음 뜻을 가진 단어를 고르세요.</span>
+          </div>
+          <div class="gv-select-area">
+            <div class="gv-word-card">
+              <span id="gvWordKo">브레인스토밍하다</span>
+            </div>
+            <div class="gv-choices" id="gvChoices">
+              <div class="gv-choice gv-choice-1">connect</div>
+              <div class="gv-choice gv-choice-2 gv-correct-choice">brainstorm<span class="gv-badge">정답</span></div>
+              <div class="gv-choice gv-choice-3">practice</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OX형 게임 화면 -->
+      <div id="gvOx" class="gv-screen" style="display:none">
+        <div class="gv-game-wrap gv-ox-bg">
+          <div class="gv-question-bar gv-ox-bar">
+            <span>다음 문장의 밑줄 친 부분이 어법상 옳으면 O, 옳지 않으면 X를 고르시오.</span>
+          </div>
+          <div class="gv-ox-content">
+            <div class="gv-ox-sentence" id="gvOxSentence">
+              <p style="font-size:16px;font-weight:700;letter-spacing:.3px">
+                Paul is <u>not so kind</u> Tony.
+              </p>
+              <p style="font-size:13px;margin-top:8px;opacity:.85;">(Paul은 Tony만큼 친절하지 않다.)</p>
+            </div>
+            <div class="gv-ox-btns">
+              <div class="gv-ox-btn gv-o-btn">○</div>
+              <div class="gv-ox-btn gv-x-btn">✕<span class="gv-badge">정답</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="game-viewer-footer">
+      <div class="gv-type-tabs">
+        <button class="gv-tab active" onclick="switchGvType('select',this)">선택형 보기</button>
+        <button class="gv-tab" onclick="switchGvType('ox',this)">OX형 보기</button>
+      </div>
     </div>
   </div>
 </div>
@@ -842,9 +1053,86 @@ function renderCanvas() {
 }
 
 // 오버레이 바깥 클릭 닫기
-['tplOverlay','loadOverlay'].forEach(id => {
+['tplOverlay','loadOverlay','gameViewerOverlay'].forEach(id => {
   document.getElementById(id).addEventListener('click', function(e) { if(e.target===this) this.classList.remove('active'); });
 });
+
+// ══ 게임형 뷰어 ══
+let gvCurrentType = 'select';
+
+// 선택형 샘플 문항 목록
+const GV_SELECT_ITEMS = [
+  { q:'다음 뜻을 가진 단어를 고르세요.', word:'브레인스토밍하다', choices:['connect','brainstorm','practice'], answer:1 },
+  { q:'다음 뜻을 가진 단어를 고르세요.', word:'연결하다',         choices:['influence','connect','optimism'],  answer:1 },
+  { q:'다음 뜻을 가진 단어를 고르세요.', word:'낙관주의',         choices:['fame','perception','optimism'],    answer:2 },
+];
+const GV_OX_ITEMS = [
+  { sentence:'<b>Paul is <u>not so kind</u> Tony.</b><br><span style="font-size:13px">(Paul은 Tony만큼 친절하지 않다.)</span>', answer:'X' },
+  { sentence:'<b>She is <u>as tall as</u> her sister.</b><br><span style="font-size:13px">(그녀는 언니만큼 키가 크다.)</span>',   answer:'O' },
+  { sentence:'<b>He runs <u>more fast</u> than Tom.</b><br><span style="font-size:13px">(그는 Tom보다 더 빠르게 달린다.)</span>', answer:'X' },
+];
+
+let gvSelectIdx = 0;
+let gvOxIdx = 0;
+
+function openGameViewer() {
+  gvSelectIdx = 0; gvOxIdx = 0;
+  gvCurrentType = 'select';
+  document.querySelectorAll('.gv-tab').forEach((t,i)=>t.classList.toggle('active',i===0));
+  renderGvSelect(); renderGvOx();
+  document.getElementById('gvSelect').style.display='flex';
+  document.getElementById('gvOx').style.display='none';
+  updateGvPage();
+  document.getElementById('gameViewerOverlay').classList.add('active');
+}
+function closeGameViewer() { document.getElementById('gameViewerOverlay').classList.remove('active'); }
+
+function switchGvType(type, btn) {
+  gvCurrentType = type;
+  document.querySelectorAll('.gv-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('gvSelect').style.display = type==='select' ? 'flex' : 'none';
+  document.getElementById('gvOx').style.display     = type==='ox'     ? 'flex' : 'none';
+  updateGvPage();
+}
+
+function prevQuestion() {
+  if (gvCurrentType==='select') { gvSelectIdx = Math.max(0, gvSelectIdx-1); renderGvSelect(); }
+  else                           { gvOxIdx     = Math.max(0, gvOxIdx-1);     renderGvOx(); }
+  updateGvPage();
+}
+function nextQuestion() {
+  if (gvCurrentType==='select') { gvSelectIdx = Math.min(GV_SELECT_ITEMS.length-1, gvSelectIdx+1); renderGvSelect(); }
+  else                           { gvOxIdx     = Math.min(GV_OX_ITEMS.length-1, gvOxIdx+1);         renderGvOx(); }
+  updateGvPage();
+}
+function updateGvPage() {
+  const total = gvCurrentType==='select' ? GV_SELECT_ITEMS.length : GV_OX_ITEMS.length;
+  const cur   = gvCurrentType==='select' ? gvSelectIdx+1          : gvOxIdx+1;
+  document.getElementById('gvPageInfo').textContent = `${cur} / ${total}`;
+}
+
+function renderGvSelect() {
+  const item = GV_SELECT_ITEMS[gvSelectIdx];
+  document.getElementById('gvSelectQ').textContent = item.q;
+  document.getElementById('gvWordKo').textContent  = item.word;
+  const colors = ['gv-choice-1','gv-choice-2','gv-choice-3'];
+  document.getElementById('gvChoices').innerHTML = item.choices.map((c,i) => {
+    const isAns = i === item.answer;
+    return `<div class="gv-choice ${colors[i]} ${isAns?'gv-correct-choice':''}" style="flex:1">
+      ${c}${isAns?'<span class="gv-badge">정답</span>':''}
+    </div>`;
+  }).join('');
+}
+
+function renderGvOx() {
+  const item = GV_OX_ITEMS[gvOxIdx];
+  document.getElementById('gvOxSentence').innerHTML = item.sentence;
+  const oBtn = document.querySelector('.gv-o-btn');
+  const xBtn = document.querySelector('.gv-x-btn');
+  oBtn.innerHTML = '○' + (item.answer==='O' ? '<span class="gv-badge">정답</span>' : '');
+  xBtn.innerHTML = '✕' + (item.answer==='X' ? '<span class="gv-badge">정답</span>' : '');
+}
 </script>
 </body>
 </html>
