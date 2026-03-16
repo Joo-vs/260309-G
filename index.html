@@ -248,6 +248,21 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
 .insert-btn { background: #3b6fd4; color: #fff; border: none; border-radius: 6px; padding: 9px 56px; font-size: 14px; font-weight: 700; cursor: pointer; }
 .insert-btn:hover { background: #2f5abf; }
 
+/* ══ 페이징 ══ */
+.q-paging {
+  display: flex; align-items: center; justify-content: center; gap: 4px;
+  padding: 10px 12px; border-top: 1px solid #eee; background: #fff; flex-shrink: 0;
+}
+.pg-btn {
+  min-width: 28px; height: 28px; border-radius: 4px; border: 1px solid #dde2ec;
+  background: #fff; color: #555; font-size: 12px; cursor: pointer; padding: 0 6px;
+  transition: all .12s;
+}
+.pg-btn:hover { background: #eef2fc; border-color: #3b6fd4; color: #3b6fd4; }
+.pg-btn.active { background: #3b6fd4; border-color: #3b6fd4; color: #fff; font-weight: 700; }
+.pg-btn:disabled { opacity: .35; cursor: default; }
+.pg-info { font-size: 11px; color: #888; margin: 0 6px; white-space: nowrap; }
+
 /* ══ 게임형 뷰어 팝업 ══ */
 .game-viewer-popup {
   background: #1a1a2e; border-radius: 12px; width: 780px;
@@ -597,9 +612,9 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
           <button onclick="selectAll()" style="height:28px;padding:0 14px;border:1px solid #3b6fd4;border-radius:4px;background:#eef2fc;color:#3b6fd4;font-size:12px;font-weight:700;cursor:pointer;">전체 선택</button>
         </div>
         <div class="q-search-bar">
-          <select class="q-search-type"><option>콘텐츠명</option><option>KEY</option><option>해시태그</option><option>등록자</option></select>
-          <input class="q-search-input" type="text" placeholder="검색어 입력">
-          <button class="q-search-btn">🔍</button>
+          <select class="q-search-type" id="qSearchType"><option>콘텐츠명</option><option>KEY</option><option>해시태그</option><option>등록자</option></select>
+          <input class="q-search-input" id="qSearchInput" type="text" placeholder="검색어 입력 (KEY 검색 시 쉼표로 구분해 여러 개 입력 가능)" onkeydown="if(event.key==='Enter')runQSearch()">
+          <button class="q-search-btn" onclick="runQSearch()">🔍</button>
         </div>
         <div class="q-side-scroll" id="qSideContent">
           <div class="q-side-empty">
@@ -607,6 +622,7 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
             <div>왼쪽에서 게임 템플릿을 먼저 선택하세요.<br><span style="font-size:11px;color:#bbb">선택한 템플릿 유형에 맞는 문항 목록이 표시됩니다.</span></div>
           </div>
         </div>
+        <div class="q-paging" id="qPaging" style="display:none"></div>
       </div>
     </div>
 
@@ -839,7 +855,11 @@ function openLoadPopup() {
   document.getElementById('fixedUnit').textContent = selectedUnit || '(미설정)';
   qSelected = {};
   currentFilteredData = [];
+  currentPage = 1;
   selectedSideTplIdx = null;
+  // 검색 초기화
+  const si = document.getElementById('qSearchInput');
+  if (si) si.value = '';
   renderTplSide();
   showQEmpty();
   updateQCount();
@@ -904,28 +924,72 @@ function showQEmpty() {
     </div>`;
 }
 
-let currentFilteredData = [];
+let currentFilteredData = [];  // 현재 필터+검색 결과 전체
+let currentPage = 1;
+const PAGE_SIZE = 5;
 
 function filterQView(type) {
   qFilter = type;
+  currentPage = 1;
   if (!selectedSideTplIdx) return;
+  applyFilter();
+}
+
+function runQSearch() {
+  currentPage = 1;
+  applyFilter();
+}
+
+function applyFilter() {
+  const searchType = document.getElementById('qSearchType')?.value || '콘텐츠명';
+  const searchVal  = (document.getElementById('qSearchInput')?.value || '').trim();
+
   let data = QUESTIONS;
-  if (type==='select') data = QUESTIONS.filter(q=>q.template==='선택형');
-  if (type==='ox')     data = QUESTIONS.filter(q=>q.template==='OX형');
+  // 유형 필터
+  if (qFilter === 'select') data = data.filter(q => q.template === '선택형');
+  if (qFilter === 'ox')     data = data.filter(q => q.template === 'OX형');
+
+  // 검색 필터
+  if (searchVal) {
+    if (searchType === 'KEY') {
+      // 쉼표 구분 다중 검색
+      const keys = searchVal.split(',').map(k => k.trim().toLowerCase()).filter(Boolean);
+      data = data.filter(q => keys.some(k => q.key.toLowerCase().includes(k)));
+    } else {
+      data = data.filter(q => q.name.toLowerCase().includes(searchVal.toLowerCase()));
+    }
+  }
+
   currentFilteredData = data;
-  renderQTable(data);
+  renderQTable();
 }
 
 function selectAll() {
   if (!currentFilteredData.length) return;
+  // 현재 필터된 전체(모든 페이지) 선택
   currentFilteredData.forEach(q => { qSelected[q.key] = q.opts[0]; });
-  renderQTable(currentFilteredData);
+  renderQTable();
 }
 
-function renderQTable(data) {
+function renderQTable() {
   const container = document.getElementById('qSideContent');
-  document.getElementById('qTotalCount').textContent = data.length;
+  const pagingEl  = document.getElementById('qPaging');
+  const total = currentFilteredData.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  if (currentPage > totalPages) currentPage = totalPages;
+
+  document.getElementById('qTotalCount').textContent = total;
   updateQCount();
+
+  // 현재 페이지 데이터
+  const start = (currentPage - 1) * PAGE_SIZE;
+  const pageData = currentFilteredData.slice(start, start + PAGE_SIZE);
+
+  if (!total) {
+    container.innerHTML = `<div class="q-side-empty"><div class="icon">🔍</div><div>검색 결과가 없습니다.</div></div>`;
+    pagingEl.style.display = 'none';
+    return;
+  }
 
   let html = `<table class="q-table">
     <thead><tr>
@@ -936,13 +1000,13 @@ function renderQTable(data) {
       <th style="width:72px;text-align:center">미리보기</th>
     </tr></thead><tbody>`;
 
-  data.forEach(q => {
-    const isOx = q.template==='OX형';
+  pageData.forEach(q => {
+    const isOx = q.template === 'OX형';
     const checked = qSelected[q.key] !== undefined;
     html += `<tr>
-      <td style="text-align:center"><input type="checkbox" class="q-checkbox" ${checked?'checked':''} onchange="toggleQ('${q.key}',this.checked,'${q.opts[0]}')"></td>
+      <td style="text-align:center"><input type="checkbox" class="q-checkbox" ${checked ? 'checked' : ''} onchange="toggleQ('${q.key}',this.checked,'${q.opts[0]}')"></td>
       <td>${q.key}</td>
-      <td><span class="tpl-tag ${isOx?'ox':''}">${q.template}</span></td>
+      <td><span class="tpl-tag ${isOx ? 'ox' : ''}">${q.template}</span></td>
       <td>${q.name}</td>
       <td style="text-align:center">
         <div class="preview-thumb-wrap">
@@ -957,6 +1021,38 @@ function renderQTable(data) {
   });
   html += '</tbody></table>';
   container.innerHTML = html;
+
+  // 페이징 렌더
+  renderPaging(totalPages, pagingEl);
+}
+
+function renderPaging(totalPages, el) {
+  if (totalPages <= 1) { el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+
+  const WINDOW = 5; // 한 번에 보여줄 페이지 버튼 수
+  const half = Math.floor(WINDOW / 2);
+  let startP = Math.max(1, currentPage - half);
+  let endP   = Math.min(totalPages, startP + WINDOW - 1);
+  if (endP - startP < WINDOW - 1) startP = Math.max(1, endP - WINDOW + 1);
+
+  let html = '';
+  html += `<button class="pg-btn" onclick="goPage(1)" ${currentPage===1?'disabled':''}>«</button>`;
+  html += `<button class="pg-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
+  for (let p = startP; p <= endP; p++) {
+    html += `<button class="pg-btn ${p===currentPage?'active':''}" onclick="goPage(${p})">${p}</button>`;
+  }
+  html += `<button class="pg-btn" onclick="goPage(${currentPage+1})" ${currentPage===totalPages?'disabled':''}>›</button>`;
+  html += `<button class="pg-btn" onclick="goPage(${totalPages})" ${currentPage===totalPages?'disabled':''}>»</button>`;
+  html += `<span class="pg-info">${currentPage} / ${totalPages} 페이지</span>`;
+  el.innerHTML = html;
+}
+
+function goPage(p) {
+  const totalPages = Math.ceil(currentFilteredData.length / PAGE_SIZE);
+  if (p < 1 || p > totalPages) return;
+  currentPage = p;
+  renderQTable();
 }
 
 function makeThumbHtml(q, large) {
