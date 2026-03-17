@@ -79,6 +79,7 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
 .btn-sm { padding: 3px 10px; font-size: 11px; border-radius: 3px; border: 1px solid #ccc; cursor: pointer; background: #fff; }
 .btn-sm:hover { background: #f0f2f5; }
 .btn-sm-blue { background: #3b6fd4; color: #fff; border-color: #3b6fd4; }
+.btn-sm-green { background: #27ae60; color: #fff; border-color: #1e8449; }
 
 /* ════ STEP 2 : 등록 ════ */
 .form-wrap { background: #fff; border: 1px solid #e0e4ed; border-radius: 6px; padding: 24px 28px; max-width: 900px; }
@@ -155,13 +156,18 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
 .tpl-popup-header { background: #2c3e6a; color: #fff; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 700; }
 .tpl-popup-body { padding: 20px; overflow-y: auto; }
 .tpl-section-title { font-size: 12px; font-weight: 700; color: #888; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
-.tpl-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 14px; margin-bottom: 20px; }
-.tpl-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
-.tpl-thumb { width: 80px; height: 56px; border-radius: 8px; border: 2px solid #e0e4ed; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 3px; padding: 4px; transition: all .15s; overflow: hidden; }
-.tpl-item:hover .tpl-thumb { border-color: #3b6fd4; box-shadow: 0 2px 8px rgba(59,111,212,.25); }
-.tpl-item.selected .tpl-thumb { border-color: #e74c3c; box-shadow: 0 2px 8px rgba(231,76,60,.3); }
+.tpl-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 16px; margin-bottom: 20px; }
+.tpl-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
+.tpl-thumb {
+  width: 100px; height: 72px; border-radius: 12px; border: 2px solid #e0e4ed;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  gap: 3px; padding: 6px; transition: all .15s; overflow: hidden; background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.tpl-item:hover .tpl-thumb { border-color: #3b6fd4; box-shadow: 0 3px 10px rgba(59,111,212,.2); transform: translateY(-2px); }
+.tpl-item.selected .tpl-thumb { border-color: #e74c3c; box-shadow: 0 3px 10px rgba(231,76,60,.3); }
 .tpl-row { height: 8px; border-radius: 2px; width: 100%; }
-.tpl-name { font-size: 10px; color: #555; text-align: center; max-width: 80px; word-break: break-all; }
+.tpl-name { font-size: 11px; color: #555; text-align: center; max-width: 100px; word-break: break-all; line-height: 1.3; }
 .tpl-popup-footer { padding: 12px 20px; border-top: 1px solid #eee; display: flex; justify-content: center; background: #fafafa; }
 
 /* ═══ 일반 문항 불러오기 팝업 - 2단 구조 ═══ */
@@ -441,12 +447,12 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
     </div>
     <table class="data-table">
       <thead>
-        <tr><th>IDX</th><th>[세트지key]<br>세트지 명</th><th>전체<br>문항수</th><th>학교급<br>학년</th><th>대단원<br>중단원</th><th>학습맵 Key</th><th>게임유형<br>게임형식</th><th>등록일<br>수정일</th><th>등록자<br>수정자</th><th>수정기록</th><th>미리보기</th><th>편집</th><th>게임원본 확인</th></tr>
+        <tr><th>IDX</th><th>[세트지key]<br>세트지 명</th><th>전체<br>문항수</th><th>학교급<br>학년</th><th>대단원<br>중단원</th><th>학습맵 Key</th><th>게임유형<br>게임형식</th><th>등록일<br>수정일</th><th>등록자<br>수정자</th><th>수정기록</th><th>미리보기</th><th>게임형 뷰어</th><th>편집</th><th>게임원본 확인</th></tr>
       </thead>
       <tbody>
-        <tr><td>1425</td><td class="left"><span style="color:#999">-</span></td><td>-</td><td>high<br>one</td><td>111<br>-</td><td>35394</td><td>줄다리기<br>문장 도전하기</td><td>2026.02.25<br>-</td><td>-</td><td>-</td><td>-</td><td><button class="btn-sm btn-sm-blue" onclick="goStep(3)">편집</button></td><td><button class="btn-sm">생성</button></td></tr>
-        <tr><td>1424</td><td class="left"><span class="key-name">[key 23309]</span><br><span class="sub-name">공영2_U4_보트레이싱</span></td><td>50</td><td>high<br>common2</td><td>Unit 4. New Challenges<br>-</td><td>35846</td><td>풍선으로 날기<br>문법 도전하기</td><td>2026.02.13<br>2026.02.24</td><td>cbstest13<br>cbstest32</td><td><span class="badge-green">확인</span></td><td><button class="btn-sm">미리보기</button></td><td><button class="btn-sm btn-sm-blue" onclick="goStep(3)">편집</button></td><td><button class="btn-sm">보기</button></td></tr>
-        <tr><td>1423</td><td class="left"><span class="key-name">[key 23308]</span><br><span class="sub-name">공영2_U4_줄다리기</span></td><td>50</td><td>high<br>common2</td><td>Unit 4. New Challenges<br>-</td><td>35846</td><td>키보드 레이싱<br>문법 도전하기</td><td>2026.02.13</td><td>cbstest13<br>cbstest12</td><td><span class="badge-green">확인</span></td><td><button class="btn-sm">미리보기</button></td><td><button class="btn-sm btn-sm-blue" onclick="goStep(3)">편집</button></td><td><button class="btn-sm">보기</button></td></tr>
+        <tr><td>1425</td><td class="left"><span style="color:#999">-</span></td><td>-</td><td>high<br>one</td><td>111<br>-</td><td>35394</td><td>줄다리기<br>문장 도전하기</td><td>2026.02.25<br>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td><button class="btn-sm btn-sm-blue" onclick="goStep(3)">편집</button></td><td><button class="btn-sm">생성</button></td></tr>
+        <tr><td>1424</td><td class="left"><span class="key-name">[key 23309]</span><br><span class="sub-name">공영2_U4_보트레이싱</span></td><td>50</td><td>high<br>common2</td><td>Unit 4. New Challenges<br>-</td><td>35846</td><td>풍선으로 날기<br>문법 도전하기</td><td>2026.02.13<br>2026.02.24</td><td>cbstest13<br>cbstest32</td><td><span class="badge-green">확인</span></td><td><button class="btn-sm">미리보기</button></td><td><button class="btn-sm btn-sm-green" onclick="openGameViewer()">미리보기</button></td><td><button class="btn-sm btn-sm-blue" onclick="goStep(3)">편집</button></td><td><button class="btn-sm">보기</button></td></tr>
+        <tr><td>1423</td><td class="left"><span class="key-name">[key 23308]</span><br><span class="sub-name">공영2_U4_줄다리기</span></td><td>50</td><td>high<br>common2</td><td>Unit 4. New Challenges<br>-</td><td>35846</td><td>키보드 레이싱<br>문법 도전하기</td><td>2026.02.13</td><td>cbstest13<br>cbstest12</td><td><span class="badge-green">확인</span></td><td><button class="btn-sm">미리보기</button></td><td><button class="btn-sm btn-sm-green" onclick="openGameViewer()">미리보기</button></td><td><button class="btn-sm btn-sm-blue" onclick="goStep(3)">편집</button></td><td><button class="btn-sm">보기</button></td></tr>
       </tbody>
     </table>
     <div style="display:flex;justify-content:center;gap:4px;margin-top:16px">
@@ -514,7 +520,6 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
         <div class="toolbar-title">설정 &nbsp;<span>[신규] 111</span></div>
         <div style="display:flex;gap:6px">
           <button class="btn btn-blue">미리보기</button>
-          <button class="btn btn-blue" onclick="openGameViewer()" style="background:#16213e;border-color:#0f3460;">🎮 게임형 뷰어</button>
           <button class="btn btn-blue">저장하기</button>
         </div>
       </div>
@@ -536,10 +541,8 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
       <div class="canvas-wrap">
         <div class="canvas" id="canvas3">
           <div class="canvas-empty" id="canvasEmpty3">
-            <!-- ★ 두 버튼 나란히 -->
             <div class="canvas-empty-btns">
               <button class="add-content-btn" onclick="openTplPopup()">콘텐츠 추가</button>
-              <button class="load-q-btn-canvas" onclick="openLoadPopup()">일반 문항 불러오기</button>
             </div>
           </div>
           <div class="canvas-content" id="canvasContent3" style="display:none"></div>
@@ -560,75 +563,79 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
 </div>
 
 <!-- ══════════════════════════
-  팝업 ① 게임 Template (기존)
+  팝업 ① 게임 Template + 일반 문항 불러오기 (탭 통합)
 ══════════════════════════ -->
 <div class="overlay" id="tplOverlay">
-  <div class="tpl-popup">
-    <div class="tpl-popup-header">게임 Template <button class="popup-close" onclick="closeTplPopup()">✕</button></div>
-    <div class="tpl-popup-body">
-      <div class="tpl-section-title">선택형</div>
-      <div class="tpl-grid" id="tplGrid1"></div>
-      <div class="tpl-section-title">OX형 · Unscramble</div>
-      <div class="tpl-grid" id="tplGrid2"></div>
-    </div>
-    <div class="tpl-popup-footer">
-      <button class="insert-btn" onclick="insertTemplate()">선택 완료</button>
-    </div>
-  </div>
-</div>
+  <div class="tpl-popup" style="width:920px;max-width:96vw;">
 
-<!-- ══════════════════════════════════
-  팝업 ② 일반 문항 불러오기 (신규 2단)
-══════════════════════════════════ -->
-<div class="overlay" id="loadOverlay">
-  <div class="load-popup">
-    <div class="load-popup-header">
-      일반 문항 불러오기
-      <button class="popup-close" onclick="closeLoadPopup()">✕</button>
+    <!-- 헤더 -->
+    <div class="tpl-popup-header" style="display:flex;justify-content:space-between;align-items:center;">
+      <span style="font-size:15px;font-weight:700;">콘텐츠 추가</span>
+      <button class="popup-close" onclick="closeTplPopup()">✕</button>
     </div>
 
-    <!-- 고정 교재/단원 바 -->
-    <div class="load-fixed-bar">
-      <span class="fixed-bar-label">교재</span>
-      <span class="fixed-bar-val" id="fixedSubject">-</span>
-      <span class="fixed-bar-sep">|</span>
-      <span class="fixed-bar-label">대단원</span>
-      <span class="fixed-bar-val" id="fixedUnit">-</span>
-    </div>
+    <!-- 단일 스크롤 바디 -->
+    <div class="tpl-popup-body" style="overflow-y:auto;flex:1;">
 
-    <!-- 2단 레이아웃 -->
-    <div class="load-popup-body">
+      <!-- ① 게임 Template 섹션 -->
+      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:16px;">
+        <span style="font-size:14px;font-weight:700;color:#333;">게임 Template</span>
+        <span style="font-size:12px;color:#e74c3c;">(템플릿을 선택하면 저작툴에 바로 삽입됩니다.)</span>
+      </div>
+      <div class="tpl-grid" id="tplGrid1" style="margin-bottom:16px;"></div>
+      <div class="tpl-grid" id="tplGrid2" style="margin-bottom:4px;"></div>
 
-      <!-- 왼쪽: 템플릿 선택 -->
-      <div class="tpl-side">
-        <div class="tpl-side-header">① 게임 템플릿 선택</div>
-        <div class="tpl-side-scroll" id="tplSideScroll"></div>
+      <!-- 구분선 + ② 일반 문항 불러오기 섹션 -->
+      <div style="border-top:2px solid #e8ecf4;margin:24px 0 16px;"></div>
+      <div class="tpl-section-title" style="margin-bottom:12px;">
+        일반 문항 불러오기
+        <span style="font-size:11px;font-weight:400;color:#999;margin-left:8px">선택형·OX형 문항을 게임 템플릿으로 변환하여 삽입</span>
       </div>
 
-      <!-- 오른쪽: 문항 리스트 -->
-      <div class="q-side">
-        <div class="q-side-header">
-          <div class="q-side-info">총 <strong id="qTotalCount">-</strong>건 검색 (선택 <strong id="qSelCount">0</strong>)</div>
-          <button onclick="selectAll()" style="height:28px;padding:0 14px;border:1px solid #3b6fd4;border-radius:4px;background:#eef2fc;color:#3b6fd4;font-size:12px;font-weight:700;cursor:pointer;">전체 선택</button>
+      <!-- 교재/단원 고정 바 -->
+      <div class="load-fixed-bar" style="margin-bottom:0;border-radius:6px 6px 0 0;">
+        <span class="fixed-bar-label">교재</span>
+        <span class="fixed-bar-val" id="fixedSubject2">-</span>
+        <span class="fixed-bar-sep">|</span>
+        <span class="fixed-bar-label">대단원</span>
+        <span class="fixed-bar-val" id="fixedUnit2">-</span>
+      </div>
+
+      <!-- 2단 레이아웃 (고정 높이) -->
+      <div class="load-popup-body" style="height:380px;overflow:hidden;margin-top:0;border:1px solid #e0e4ed;border-top:none;border-radius:0 0 6px 6px;">
+        <!-- 왼쪽: 게임 템플릿 선택 -->
+        <div class="tpl-side">
+          <div class="tpl-side-header">① 게임 템플릿 선택</div>
+          <div class="tpl-side-scroll" id="tplSideScroll2"></div>
         </div>
-        <div class="q-search-bar">
-          <select class="q-search-type" id="qSearchType"><option>콘텐츠명</option><option>KEY</option><option>해시태그</option><option>등록자</option></select>
-          <input class="q-search-input" id="qSearchInput" type="text" placeholder="검색어 입력 (KEY 검색 시 쉼표로 구분해 여러 개 입력 가능)" onkeydown="if(event.key==='Enter')runQSearch()">
-          <button class="q-search-btn" onclick="runQSearch()">🔍</button>
-        </div>
-        <div class="q-side-scroll" id="qSideContent">
-          <div class="q-side-empty">
-            <div class="icon">👈</div>
-            <div>왼쪽에서 게임 템플릿을 먼저 선택하세요.<br><span style="font-size:11px;color:#bbb">선택한 템플릿 유형에 맞는 문항 목록이 표시됩니다.</span></div>
+        <!-- 오른쪽: 문항 리스트 -->
+        <div class="q-side">
+          <div class="q-side-header">
+            <div class="q-side-info">총 <strong id="qTotalCount2">-</strong>건 검색 (선택 <strong id="qSelCount2">0</strong>)</div>
+            <button onclick="selectAll2()" style="height:28px;padding:0 14px;border:1px solid #3b6fd4;border-radius:4px;background:#eef2fc;color:#3b6fd4;font-size:12px;font-weight:700;cursor:pointer;">전체 선택</button>
           </div>
+          <div class="q-search-bar">
+            <select class="q-search-type" id="qSearchType2"><option>콘텐츠명</option><option>KEY</option><option>해시태그</option><option>등록자</option></select>
+            <input class="q-search-input" id="qSearchInput2" type="text" placeholder="검색어 입력 (KEY 검색 시 쉼표로 여러 개 입력 가능)" onkeydown="if(event.key==='Enter')runQSearch2()">
+            <button class="q-search-btn" onclick="runQSearch2()">🔍</button>
+          </div>
+          <div class="q-side-scroll" id="qSideContent2">
+            <div class="q-side-empty">
+              <div class="icon">👈</div>
+              <div>왼쪽에서 게임 템플릿을 먼저 선택하세요.<br><span style="font-size:11px;color:#bbb">선택한 템플릿 유형에 맞는 문항 목록이 표시됩니다.</span></div>
+            </div>
+          </div>
+          <div class="q-paging" id="qPaging2" style="display:none"></div>
         </div>
-        <div class="q-paging" id="qPaging" style="display:none"></div>
       </div>
+
+    </div><!-- /tpl-popup-body -->
+
+    <!-- 하단: 문항 변환 삽입 버튼만 -->
+    <div class="tpl-popup-footer">
+      <button class="insert-btn" onclick="insertQuestions2()">문항 변환 삽입</button>
     </div>
 
-    <div class="load-popup-footer">
-      <button class="insert-btn" onclick="insertQuestions()">변환</button>
-    </div>
   </div>
 </div>
 
@@ -823,24 +830,40 @@ function renderGrid(elId, list, prefix) {
     const div = document.createElement('div');
     div.className = 'tpl-item';
     div.id = prefix+'_'+i;
+    // 클릭 즉시 삽입
     div.onclick = () => {
-      document.querySelectorAll('.tpl-item').forEach(e=>e.classList.remove('selected'));
-      div.classList.add('selected');
-      selectedTplIdx = { prefix, i };
+      closeTplPopup();
+      addCanvasCard({ type:'template', name:t.name, isOx:!!t.isOx, source:'게임 템플릿', assignedTemplate:t.name });
     };
     div.innerHTML = `
       <div class="tpl-thumb">
         ${t.isOx
-          ? `<div style="display:flex;gap:4px"><span style="color:#22c55e;font-size:16px;font-weight:900">○</span><span style="color:#ef4444;font-size:16px;font-weight:900">✕</span></div>`
-          : (t.colors||[]).map((c,ci)=>`<div class="tpl-row" style="background:${c};height:${ci===0?10:6}px"></div>`).join('')
+          ? `<div style="display:flex;gap:6px;align-items:center;justify-content:center;width:100%;height:100%">
+               <span style="color:#22c55e;font-size:22px;font-weight:900;line-height:1">○</span>
+               <span style="color:#ef4444;font-size:22px;font-weight:900;line-height:1">✕</span>
+             </div>`
+          : (t.colors||[]).map((c,ci)=>`<div class="tpl-row" style="background:${c};height:${ci===0?12:7}px"></div>`).join('')
         }
       </div>
       <div class="tpl-name">${t.name}</div>`;
     el.appendChild(div);
   });
 }
-function openTplPopup() { selectedTplIdx = null; renderTplGrids(); document.getElementById('tplOverlay').classList.add('active'); }
+function openTplPopup() {
+  selectedTplIdx = null;
+  renderTplGrids();
+  // 탭2 교재/단원 동기화
+  document.getElementById('fixedSubject2').textContent = selectedSubject || '(미설정)';
+  document.getElementById('fixedUnit2').textContent = selectedUnit || '(미설정)';
+  // 일반 문항 섹션 초기화
+  qSelected2 = {}; currentFilteredData2 = []; currentPage2 = 1; selectedSideTplIdx2 = null;
+  const si2 = document.getElementById('qSearchInput2'); if (si2) si2.value = '';
+  renderTplSide2();
+  showQEmpty2();
+  document.getElementById('tplOverlay').classList.add('active');
+}
 function closeTplPopup() { document.getElementById('tplOverlay').classList.remove('active'); }
+
 function insertTemplate() {
   if (!selectedTplIdx) { alert('템플릿을 선택하세요.'); return; }
   const list = selectedTplIdx.prefix==='g1' ? TPL_SELECT : TPL_OX;
@@ -849,23 +872,185 @@ function insertTemplate() {
   addCanvasCard({ type:'template', name:t.name, isOx:!!t.isOx, source:'게임 템플릿', assignedTemplate:t.name });
 }
 
-// ══ 팝업②: 일반 문항 불러오기 ══
-function openLoadPopup() {
-  document.getElementById('fixedSubject').textContent = selectedSubject || '(미설정)';
-  document.getElementById('fixedUnit').textContent = selectedUnit || '(미설정)';
-  qSelected = {};
-  currentFilteredData = [];
-  currentPage = 1;
-  selectedSideTplIdx = null;
-  // 검색 초기화
-  const si = document.getElementById('qSearchInput');
-  if (si) si.value = '';
-  renderTplSide();
-  showQEmpty();
-  updateQCount();
-  document.getElementById('loadOverlay').classList.add('active');
+// ══ 탭2: 일반 문항 불러오기 상태 ══
+let qSelected2        = {};
+let qFilter2          = 'all';
+let currentFilteredData2 = [];
+let currentPage2      = 1;
+let selectedSideTplIdx2 = null;
+
+function renderTplSide2() {
+  const scroll = document.getElementById('tplSideScroll2');
+  scroll.innerHTML = '';
+  const sec1 = document.createElement('div'); sec1.className = 'tpl-side-section';
+  sec1.innerHTML = '<div class="tpl-side-section-title">선택형</div>';
+  const grid1 = document.createElement('div'); grid1.className = 'tpl-side-grid';
+  TPL_SELECT.forEach((t,i) => grid1.appendChild(makeSideTplItem2(t,i,'s')));
+  sec1.appendChild(grid1); scroll.appendChild(sec1);
+  const sec2 = document.createElement('div'); sec2.className = 'tpl-side-section';
+  sec2.innerHTML = '<div class="tpl-side-section-title">OX형</div>';
+  const grid2 = document.createElement('div'); grid2.className = 'tpl-side-grid';
+  TPL_OX.forEach((t,i) => grid2.appendChild(makeSideTplItem2(t,i,'o')));
+  sec2.appendChild(grid2); scroll.appendChild(sec2);
 }
-function closeLoadPopup() { document.getElementById('loadOverlay').classList.remove('active'); }
+
+function makeSideTplItem2(t, i, prefix) {
+  const div = document.createElement('div');
+  div.className = 'tpl-side-item';
+  div.id = 'side2_'+prefix+i;
+  div.onclick = () => onSideTplClick2(t, prefix, i);
+  div.innerHTML = `
+    <div class="tpl-side-thumb">
+      ${t.isOx
+        ? `<div style="display:flex;gap:3px"><span style="color:#22c55e;font-size:14px;font-weight:900">○</span><span style="color:#ef4444;font-size:14px;font-weight:900">✕</span></div>`
+        : (t.colors||[]).map((c,ci)=>`<div class="tpl-row" style="background:${c};height:${ci===0?9:5}px"></div>`).join('')
+      }
+    </div>
+    <div class="tpl-side-name">${t.name}</div>`;
+  return div;
+}
+
+function onSideTplClick2(tpl, prefix, i) {
+  document.querySelectorAll('#tplSideScroll2 .tpl-side-item').forEach(e=>e.classList.remove('selected'));
+  document.getElementById('side2_'+prefix+i).classList.add('selected');
+  selectedSideTplIdx2 = { tpl, prefix, i };
+  currentPage2 = 1;
+  if (tpl.isOx) filterQView2('ox');
+  else if (tpl.type === '선택형') filterQView2('select');
+  else filterQView2('all');
+}
+
+function showQEmpty2() {
+  document.getElementById('qSideContent2').innerHTML = `
+    <div class="q-side-empty">
+      <div class="icon">👈</div>
+      <div>왼쪽에서 게임 템플릿을 먼저 선택하세요.<br><span style="font-size:11px;color:#bbb">선택한 템플릿 유형에 맞는 문항 목록이 표시됩니다.</span></div>
+    </div>`;
+  document.getElementById('qPaging2').style.display = 'none';
+}
+
+function filterQView2(type) {
+  qFilter2 = type;
+  currentPage2 = 1;
+  if (!selectedSideTplIdx2) return;
+  applyFilter2();
+}
+
+function runQSearch2() { currentPage2 = 1; applyFilter2(); }
+
+function applyFilter2() {
+  const searchType = document.getElementById('qSearchType2')?.value || '콘텐츠명';
+  const searchVal  = (document.getElementById('qSearchInput2')?.value || '').trim();
+  let data = QUESTIONS;
+  if (qFilter2 === 'select') data = data.filter(q => q.template === '선택형');
+  if (qFilter2 === 'ox')     data = data.filter(q => q.template === 'OX형');
+  if (searchVal) {
+    if (searchType === 'KEY') {
+      const keys = searchVal.split(',').map(k => k.trim().toLowerCase()).filter(Boolean);
+      data = data.filter(q => keys.some(k => q.key.toLowerCase().includes(k)));
+    } else {
+      data = data.filter(q => q.name.toLowerCase().includes(searchVal.toLowerCase()));
+    }
+  }
+  currentFilteredData2 = data;
+  renderQTable2();
+}
+
+function selectAll2() {
+  if (!currentFilteredData2.length) return;
+  currentFilteredData2.forEach(q => { qSelected2[q.key] = q.opts[0]; });
+  renderQTable2();
+}
+
+function updateQCount2() {
+  document.getElementById('qSelCount2').textContent = Object.keys(qSelected2).length;
+}
+
+function renderQTable2() {
+  const container = document.getElementById('qSideContent2');
+  const pagingEl  = document.getElementById('qPaging2');
+  const total = currentFilteredData2.length;
+  const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  if (currentPage2 > totalPages) currentPage2 = totalPages;
+  document.getElementById('qTotalCount2').textContent = total;
+  updateQCount2();
+
+  const start = (currentPage2 - 1) * PAGE_SIZE;
+  const pageData = currentFilteredData2.slice(start, start + PAGE_SIZE);
+
+  if (!total) {
+    container.innerHTML = `<div class="q-side-empty"><div class="icon">🔍</div><div>검색 결과가 없습니다.</div></div>`;
+    pagingEl.style.display = 'none'; return;
+  }
+
+  let html = `<table class="q-table"><thead><tr>
+    <th style="width:36px;text-align:center">선택</th>
+    <th style="width:62px">key</th><th style="width:66px">템플릿</th>
+    <th>콘텐츠 명</th><th style="width:72px;text-align:center">미리보기</th>
+  </tr></thead><tbody>`;
+  pageData.forEach(q => {
+    const isOx = q.template === 'OX형';
+    const checked = qSelected2[q.key] !== undefined;
+    html += `<tr>
+      <td style="text-align:center"><input type="checkbox" class="q-checkbox" ${checked?'checked':''} onchange="toggleQ2('${q.key}',this.checked,'${q.opts[0]}')"></td>
+      <td>${q.key}</td>
+      <td><span class="tpl-tag ${isOx?'ox':''}">${q.template}</span></td>
+      <td>${q.name}</td>
+      <td style="text-align:center">
+        <div class="preview-thumb-wrap">
+          <div class="preview-thumb-inner">${makeThumbHtml(q, false)}</div>
+          <div class="preview-hover">
+            <div class="preview-hover-inner">${makeThumbHtml(q, true)}</div>
+            <div style="font-size:10px;color:#888;margin-top:5px;text-align:center">${q.name}</div>
+          </div>
+        </div>
+      </td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  container.innerHTML = html;
+
+  // 페이징
+  renderPaging2(totalPages, pagingEl);
+}
+
+function renderPaging2(totalPages, el) {
+  if (totalPages <= 1) { el.style.display = 'none'; return; }
+  el.style.display = 'flex';
+  const WINDOW = 5; const half = Math.floor(WINDOW/2);
+  let startP = Math.max(1, currentPage2-half);
+  let endP   = Math.min(totalPages, startP+WINDOW-1);
+  if (endP-startP < WINDOW-1) startP = Math.max(1, endP-WINDOW+1);
+  let html = '';
+  html += `<button class="pg-btn" onclick="goPage2(1)" ${currentPage2===1?'disabled':''}>«</button>`;
+  html += `<button class="pg-btn" onclick="goPage2(${currentPage2-1})" ${currentPage2===1?'disabled':''}>‹</button>`;
+  for (let p=startP; p<=endP; p++) html += `<button class="pg-btn ${p===currentPage2?'active':''}" onclick="goPage2(${p})">${p}</button>`;
+  html += `<button class="pg-btn" onclick="goPage2(${currentPage2+1})" ${currentPage2===totalPages?'disabled':''}>›</button>`;
+  html += `<button class="pg-btn" onclick="goPage2(${totalPages})" ${currentPage2===totalPages?'disabled':''}>»</button>`;
+  html += `<span class="pg-info">${currentPage2} / ${totalPages} 페이지</span>`;
+  el.innerHTML = html;
+}
+
+function goPage2(p) {
+  const totalPages = Math.ceil(currentFilteredData2.length / PAGE_SIZE);
+  if (p<1||p>totalPages) return;
+  currentPage2 = p; renderQTable2();
+}
+
+function toggleQ2(key, checked, def) {
+  if (checked) qSelected2[key]=def; else delete qSelected2[key];
+  updateQCount2();
+}
+
+function insertQuestions2() {
+  const keys = Object.keys(qSelected2);
+  if (!keys.length) { alert('삽입할 문항을 선택하세요.'); return; }
+  keys.forEach(k => {
+    const q = QUESTIONS.find(q=>q.key===k);
+    addCanvasCard({ type:'converted', name:q.name, isOx:q.template==='OX형', origTemplate:q.template, assignedTemplate:qSelected2[k], source:'일반 문항 변환' });
+  });
+  closeTplPopup();
+}
 
 // 왼쪽 템플릿 사이드 렌더
 function renderTplSide() {
@@ -1143,14 +1328,14 @@ function renderCanvas() {
   const addRow = document.createElement('div');
   addRow.style.cssText = 'display:flex;gap:10px;justify-content:center;padding:16px';
   addRow.innerHTML = `
-    <button class="add-content-btn" onclick="openTplPopup()" style="font-size:12px;padding:8px 16px;background:#5b8def">🎮 게임 템플릿 추가</button>
-    <button class="load-q-btn-canvas" onclick="openLoadPopup()" style="font-size:12px;padding:8px 16px">📋 문항 추가 불러오기</button>`;
+    <button class="add-content-btn" onclick="openTplPopup()" style="font-size:12px;padding:8px 20px;background:#5b8def">콘텐츠 추가</button>`;
   c.appendChild(addRow);
 }
 
 // 오버레이 바깥 클릭 닫기
-['tplOverlay','loadOverlay','gameViewerOverlay'].forEach(id => {
-  document.getElementById(id).addEventListener('click', function(e) { if(e.target===this) this.classList.remove('active'); });
+['tplOverlay','gameViewerOverlay'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('click', function(e) { if(e.target===this) this.classList.remove('active'); });
 });
 
 // ══ 게임형 뷰어 ══
