@@ -154,6 +154,7 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
 /* ═══ 게임 템플릿 팝업 ═══ */
 .tpl-popup { background: #fff; border-radius: 10px; width: 800px; max-height: 86vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 8px 32px rgba(0,0,0,.25); }
 .tpl-popup-header { background: #2c3e6a; color: #fff; padding: 14px 22px; display: flex; justify-content: space-between; align-items: center; font-size: 15px; font-weight: 700; }
+#popupViewTpl, #popupViewLoad { flex: 1; overflow: hidden; min-height: 0; }
 .tpl-popup-body { padding: 20px; overflow-y: auto; }
 .tpl-section-title { font-size: 12px; font-weight: 700; color: #888; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #eee; }
 .tpl-grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 16px; margin-bottom: 20px; }
@@ -563,37 +564,55 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
 </div>
 
 <!-- ══════════════════════════
-  팝업 ① 게임 Template + 일반 문항 불러오기 (탭 통합)
+  팝업 ① 콘텐츠 추가 (2화면 전환)
 ══════════════════════════ -->
 <div class="overlay" id="tplOverlay">
   <div class="tpl-popup" style="width:920px;max-width:96vw;">
 
     <!-- 헤더 -->
     <div class="tpl-popup-header" style="display:flex;justify-content:space-between;align-items:center;">
-      <span style="font-size:15px;font-weight:700;">콘텐츠 추가</span>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <!-- 뒤로가기 버튼 (화면2에서만 표시) -->
+        <button id="popupBackBtn" onclick="switchPopupView('tpl')"
+          style="display:none;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+                 color:#fff;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:12px;">
+          ← 뒤로
+        </button>
+        <span id="popupTitle" style="font-size:15px;font-weight:700;">콘텐츠 추가</span>
+      </div>
       <button class="popup-close" onclick="closeTplPopup()">✕</button>
     </div>
 
-    <!-- 단일 스크롤 바디 -->
-    <div class="tpl-popup-body" style="overflow-y:auto;flex:1;">
-
-      <!-- ① 게임 Template 섹션 -->
-      <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:16px;">
-        <span style="font-size:14px;font-weight:700;color:#333;">게임 Template</span>
-        <span style="font-size:12px;color:#e74c3c;">(템플릿을 선택하면 저작툴에 바로 삽입됩니다.)</span>
+    <!-- ★ 화면1: 게임 Template 목록 -->
+    <div id="popupViewTpl" style="display:flex;flex-direction:column;flex:1;overflow:hidden;">
+      <div class="tpl-popup-body" style="overflow-y:auto;flex:1;">
+        <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:16px;">
+          <span style="font-size:14px;font-weight:700;color:#333;">게임 Template</span>
+          <span style="font-size:12px;color:#888;">(템플릿을 선택 후 하단 버튼을 클릭하세요.)</span>
+        </div>
+        <div class="tpl-grid" id="tplGrid1" style="margin-bottom:16px;"></div>
+        <div class="tpl-grid" id="tplGrid2"></div>
       </div>
-      <div class="tpl-grid" id="tplGrid1" style="margin-bottom:16px;"></div>
-      <div class="tpl-grid" id="tplGrid2" style="margin-bottom:4px;"></div>
-
-      <!-- 구분선 + ② 일반 문항 불러오기 섹션 -->
-      <div style="border-top:2px solid #e8ecf4;margin:24px 0 16px;"></div>
-      <div class="tpl-section-title" style="margin-bottom:12px;">
-        일반 문항 불러오기
-        <span style="font-size:11px;font-weight:400;color:#999;margin-left:8px">선택형·OX형 문항을 게임 템플릿으로 변환하여 삽입</span>
+      <!-- 하단 버튼 두 개 -->
+      <div class="tpl-popup-footer" style="gap:12px;">
+        <button class="insert-btn"
+          style="background:#3b6fd4;color:#fff;border:2px solid #3b6fd4;padding:9px 36px;"
+          onclick="insertTemplate()">
+          게임 템플릿 삽입
+        </button>
+        <button class="insert-btn"
+          style="background:#fff;color:#1a4a7a;border:2px solid #1a4a7a;padding:9px 36px;"
+          onclick="switchPopupView('load')">
+          문항 변환 삽입
+        </button>
       </div>
+    </div>
+
+    <!-- ★ 화면2: 일반 문항 불러오기 -->
+    <div id="popupViewLoad" style="display:none;flex-direction:column;flex:1;overflow:hidden;">
 
       <!-- 교재/단원 고정 바 -->
-      <div class="load-fixed-bar" style="margin-bottom:0;border-radius:6px 6px 0 0;">
+      <div class="load-fixed-bar" style="border-radius:0;border-left:none;border-right:none;">
         <span class="fixed-bar-label">교재</span>
         <span class="fixed-bar-val" id="fixedSubject2">-</span>
         <span class="fixed-bar-sep">|</span>
@@ -601,8 +620,8 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
         <span class="fixed-bar-val" id="fixedUnit2">-</span>
       </div>
 
-      <!-- 2단 레이아웃 (고정 높이) -->
-      <div class="load-popup-body" style="height:380px;overflow:hidden;margin-top:0;border:1px solid #e0e4ed;border-top:none;border-radius:0 0 6px 6px;">
+      <!-- 2단 레이아웃 -->
+      <div class="load-popup-body" style="flex:1;overflow:hidden;">
         <!-- 왼쪽: 게임 템플릿 선택 -->
         <div class="tpl-side">
           <div class="tpl-side-header">① 게임 템플릿 선택</div>
@@ -629,11 +648,10 @@ body { font-family: 'Malgun Gothic', '맑은 고딕', sans-serif; font-size: 13p
         </div>
       </div>
 
-    </div><!-- /tpl-popup-body -->
-
-    <!-- 하단: 문항 변환 삽입 버튼만 -->
-    <div class="tpl-popup-footer">
-      <button class="insert-btn" onclick="insertQuestions2()">문항 변환 삽입</button>
+      <!-- 하단 버튼 -->
+      <div class="tpl-popup-footer">
+        <button class="insert-btn" onclick="insertQuestions2()">문항 변환 삽입</button>
+      </div>
     </div>
 
   </div>
@@ -830,10 +848,11 @@ function renderGrid(elId, list, prefix) {
     const div = document.createElement('div');
     div.className = 'tpl-item';
     div.id = prefix+'_'+i;
-    // 클릭 즉시 삽입
+    // 클릭 시 선택 표시만
     div.onclick = () => {
-      closeTplPopup();
-      addCanvasCard({ type:'template', name:t.name, isOx:!!t.isOx, source:'게임 템플릿', assignedTemplate:t.name });
+      document.querySelectorAll('#tplGrid1 .tpl-item, #tplGrid2 .tpl-item').forEach(e => e.classList.remove('selected'));
+      div.classList.add('selected');
+      selectedTplIdx = { prefix, i };
     };
     div.innerHTML = `
       <div class="tpl-thumb">
@@ -852,17 +871,34 @@ function renderGrid(elId, list, prefix) {
 function openTplPopup() {
   selectedTplIdx = null;
   renderTplGrids();
-  // 탭2 교재/단원 동기화
-  document.getElementById('fixedSubject2').textContent = selectedSubject || '(미설정)';
-  document.getElementById('fixedUnit2').textContent = selectedUnit || '(미설정)';
-  // 일반 문항 섹션 초기화
-  qSelected2 = {}; currentFilteredData2 = []; currentPage2 = 1; selectedSideTplIdx2 = null;
-  const si2 = document.getElementById('qSearchInput2'); if (si2) si2.value = '';
-  renderTplSide2();
-  showQEmpty2();
+  // 항상 게임 Template 화면으로 열기
+  switchPopupView('tpl');
   document.getElementById('tplOverlay').classList.add('active');
 }
 function closeTplPopup() { document.getElementById('tplOverlay').classList.remove('active'); }
+
+function switchPopupView(view) {
+  const isTpl = view === 'tpl';
+  const vTpl  = document.getElementById('popupViewTpl');
+  const vLoad = document.getElementById('popupViewLoad');
+  const backBtn = document.getElementById('popupBackBtn');
+  const title   = document.getElementById('popupTitle');
+
+  vTpl.style.display  = isTpl ? 'flex' : 'none';
+  vLoad.style.display = isTpl ? 'none' : 'flex';
+  backBtn.style.display = isTpl ? 'none' : 'inline-block';
+  title.textContent = isTpl ? '콘텐츠 추가' : '일반 문항 불러오기';
+
+  if (!isTpl) {
+    // 일반 문항 화면 진입 시 교재/단원 동기화 및 사이드 렌더
+    document.getElementById('fixedSubject2').textContent = selectedSubject || '(미설정)';
+    document.getElementById('fixedUnit2').textContent    = selectedUnit    || '(미설정)';
+    if (!document.getElementById('tplSideScroll2').children.length) {
+      renderTplSide2();
+      showQEmpty2();
+    }
+  }
+}
 
 function insertTemplate() {
   if (!selectedTplIdx) { alert('템플릿을 선택하세요.'); return; }
